@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>City Traffic Control</title>
+  <style>
+    body {
+      background: radial-gradient(circle, #333, #000);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 40px;
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .traffic-container {
+      display: flex;
+      justify-content: space-between;
+      width: 150px;
+    }
+
+    .light-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 130px;
+      background: #222;
+      border-radius: 25px;
+      padding: 15px;
+      box-shadow: inset 0 0 15px #111, 0 0 20px black;
+    }
+
+    .light {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: transparent;
+      box-shadow: 0 0 15px #000 inset;
+      border: 2px solid #555;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    .light.red {
+      background: linear-gradient(#5c0000, #ff0000);
+      box-shadow: 0 0 15px red;
+    }
+
+    .light.yellow {
+      background: linear-gradient(#e5a000, #ffff00);
+      box-shadow: 0 0 15px yellow;
+    }
+
+    .light.green {
+      background: linear-gradient(#005c00, #00ff00);
+      box-shadow: 0 0 15px green;
+    }
+
+    .city-lights {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      background-color: #444;
+      padding: 15px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .author {
+      font-size: 14px;
+      color: #aaa;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">City Traffic Control</div>
+  
+  <div class="city-lights">
+    <div class="light-container">
+      <div class="light" id="red-light"></div>
+    </div>
+    <div class="light-container">
+      <div class="light" id="yellow-light"></div>
+    </div>
+    <div class="light-container">
+      <div class="light" id="green-light"></div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbgWDouBhH4oqh1t-9TuwalvVehZZLDvI",
+      authDomain: "arduino-cloud-function.firebaseapp.com",
+      databaseURL: "https://arduino-cloud-function-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "arduino-cloud-function",
+      storageBucket: "arduino-cloud-function.appspot.com",
+      messagingSenderId: "34501089110",
+      appId: "1:34501089110:web:17d64cbe1056e14f7f28f7",
+      measurementId: "G-MNHLZH6KMV"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    function LED_RED() {
+      firebase.database().ref("status/").set({
+        status: "RED"
+      });
+    }
+
+    function LED_YELLOW() {
+      firebase.database().ref("status/").set({
+        status: "YELLOW"
+      });
+    }
+
+    function LED_GREEN() {
+      firebase.database().ref("status/").set({
+        status: "GREEN"
+      });
+    }
+
+    function LED_OFF() {
+      firebase.database().ref("status/").set({
+        status: "OFF"
+      });
+    }
+
+    const redLight = document.getElementById('red-light');
+    const yellowLight = document.getElementById('yellow-light');
+    const greenLight = document.getElementById('green-light');
+
+    redLight.addEventListener('click', () => {
+      if (redLight.style.backgroundColor === 'red') {
+        redLight.style.backgroundColor = 'transparent';
+        LED_OFF();
+      } else {
+        redLight.style.backgroundColor = 'red';
+        yellowLight.style.backgroundColor = 'transparent';
+        greenLight.style.backgroundColor = 'transparent';
+        LED_RED();
+      }
+    });
+
+    yellowLight.addEventListener('click', () => {
+      if (yellowLight.style.backgroundColor === 'yellow') {
+        yellowLight.style.backgroundColor = 'transparent';
+        LED_OFF();
+      } else {
+        yellowLight.style.backgroundColor = 'yellow';
+        redLight.style.backgroundColor = 'transparent';
+        greenLight.style.backgroundColor = 'transparent';
+        LED_YELLOW();
+      }
+    });
+
+    greenLight.addEventListener('click', () => {
+      if (greenLight.style.backgroundColor === 'green') {
+        greenLight.style.backgroundColor = 'transparent';
+        LED_OFF();
+      } else {
+        greenLight.style.backgroundColor = 'green';
+        redLight.style.backgroundColor = 'transparent';
+        yellowLight.style.backgroundColor = 'transparent';
+        LED_GREEN();
+      }
+    });
+  </script>
+</body>
+</html>
