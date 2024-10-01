@@ -2,8 +2,8 @@
 #include <WiFiNINA.h>
 #include <Firebase_Arduino_WiFiNINA.h>
 
-#define FIREBASE_HOST "arduino-cloud-function-default-rtdb.asia-southeast1.firebasedatabase.app"
-#define FIREBASE_AUTH "AIzaSyCbgWDouBhH4oqh1t-9TuwalvVehZZLDvI"
+#define FIREBASE_HOST "Firebase Host ID"
+#define FIREBASE_AUTH "Authentication ID"
 #define WIFI_SSID "Router"
 #define WIFI_PASSWORD "Router12"
 
